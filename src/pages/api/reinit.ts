@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (_req, res) => {
       isSold: false,
       createdDate: Date.UTC(2022, 12, 3),
       author: 'James D.K.',
-      contentDescription: 'This painting represents tress in the forest',
+      contentDescription: 'This painting represents trees in the forest',
       materialsDescription: 'The painting was created using oil paint',
     },
     {
