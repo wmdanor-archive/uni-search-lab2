@@ -14,6 +14,9 @@ export interface PaintingsSearchOptions {
   price?: RangeSearchOptions;
   isSold?: boolean;
   createdDate?: number | RangeSearchOptions;
+  author?: string;
+  contentDescription?: string;
+  materialsDescription?: string;
 }
 
 export class PaintingsService {
@@ -49,12 +52,37 @@ export class PaintingsService {
       price: { type: 'integer' },
       isSold: { type: 'boolean' },
       createdDate: { type: 'date', format: 'epoch_millis' },
+      author: { type: 'text', analyzer: 'standard' },
+      contentDescription: { type: 'text', analyzer: 'english' },
+      materialsDescription: { type: 'text', analyzer: 'custom_mapper' },
     };
 
     await this.client.indices.create({
       index: this.INDEX_NAME,
       mappings: {
         properties,
+      },
+      settings: {
+        analysis: {
+          analyzer: {
+            custom_analyzer: {
+              type: 'custom',
+              tokenizer: 'standard',
+              char_filter: ['custom_mapper'],
+              filter: ['lowercase'],
+            },
+          },
+          char_filter: {
+            custom_mapper: {
+              type: 'mapping',
+              mappings: [
+                '== => equal',
+                '> => greater than',
+                '< => lower than',
+              ],
+            },
+          },
+        },
       },
     });
   }
@@ -102,6 +130,30 @@ export class PaintingsService {
       pushQuery({
         term: {
           isSold: options.isSold,
+        },
+      });
+    }
+
+    if (options.author !== undefined) {
+      pushQuery({
+        match: {
+          author: options.author,
+        },
+      });
+    }
+
+    if (options.contentDescription !== undefined) {
+      pushQuery({
+        match: {
+          contentDescription: options.contentDescription,
+        },
+      });
+    }
+
+    if (options.materialsDescription !== undefined) {
+      pushQuery({
+        match: {
+          materialsDescription: options.materialsDescription,
         },
       });
     }

@@ -15,9 +15,14 @@
     @apply outline-none border-2 font-semibold border-neutral-500 hover:border-blue-600 focus:border-blue-800 rounded-full bg-white transition duration-200 p-1 px-5;
   }
 
+  textarea {
+    @apply outline-none border-2 font-semibold border-neutral-500 hover:border-blue-600 focus:border-blue-800 rounded-3xl bg-white transition duration-200 p-1 px-5;
+  }
+
   input[type="checkbox"],
   input[type="radio"] {
     transform: translateY(1px);
+    cursor: pointer;
   }
 
   input[type="number"]::-webkit-inner-spin-button,
@@ -27,7 +32,7 @@
   }
 
   button, [data-styling="button"] {
-    @apply border-2 font-semibold border-blue-600 focus:border-blue-800 rounded-full bg-white hover:bg-blue-600 text-blue-600 hover:text-white transition duration-200 p-1 px-5
+    @apply border-2 font-semibold border-blue-600 focus:border-blue-800 rounded-full bg-white hover:bg-blue-600 text-blue-600 hover:text-white transition duration-200 p-1 px-5 disabled:bg-neutral-500 disabled:border-neutral-800 disabled:text-neutral-800;
   }
 
   button[data-variant="danger"], [data-variant="danger"][data-styling="button"] {

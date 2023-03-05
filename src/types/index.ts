@@ -4,6 +4,9 @@ export interface Painting {
   price: number;
   isSold: boolean;
   createdDate: number; // the number of milliseconds since the epoch
+  author: string;
+  contentDescription: string;
+  materialsDescription: string;
 }
 
 export interface ESPainting {
@@ -12,4 +15,7 @@ export interface ESPainting {
   price: number;
   isSold: boolean;
   createdDate: string; // the number of milliseconds since the epoch
+  author: string;
+  contentDescription: string;
+  materialsDescription: string;
 }

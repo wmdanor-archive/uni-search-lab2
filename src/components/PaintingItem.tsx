@@ -11,7 +11,7 @@ export interface PaintingItemProps {
 }
 
 const PaintingItem: FC<PaintingItemProps> = ({ painting, onDelete }) => {
-  const { id, name, price, isSold, createdDate } = painting;
+  const { id, name, price, isSold, createdDate, author, contentDescription, materialsDescription } = painting;
   const [createdDateString, setCreatedDateString] = useState(new Date(createdDate).toISOString());
 
   // Fix for `Error: Text content does not match server-rendered HTML."`
@@ -48,6 +48,7 @@ const PaintingItem: FC<PaintingItemProps> = ({ painting, onDelete }) => {
   return(
     <div data-id={id} className="flex flex-col gap-3 border-t last:border-b p-4">
       <h2 className="text-lg">{name}</h2>
+      <h3 className="font-semibold">{author}</h3>
       <div className="flex flex-col">
         <span>Price: {price}$</span>
         {
@@ -55,6 +56,14 @@ const PaintingItem: FC<PaintingItemProps> = ({ painting, onDelete }) => {
           (<span className="text-red-600 font-semibold">Sold</span>) :
           (<span className="text-green-600 font-semibold">Selling</span>)
         }
+      </div>
+      <div className="flex flex-col">
+        <span>Content description</span>
+        <span>{contentDescription}</span>
+      </div>
+      <div className="flex flex-col">
+        <span>Materials description</span>
+        <span>{materialsDescription}</span>
       </div>
       <div className="flex flex-col">
         <span>Created at: {createdDateString}</span>

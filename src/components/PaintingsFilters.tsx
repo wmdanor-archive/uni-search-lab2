@@ -17,6 +17,9 @@ const PaintingsFilters: FC<PaintingsFiltersProps> = ({ onSubmit, init }) => {
   const [filterByDateRange, setFilterByDateRange] = useState(true);
   const [createdDate, setCreatedDate] = useState<number | undefined>();
   const [createdDateRange, setCreatedDateRange] = useState<RangeSearchOptions>({});
+  const [author, setAuthor] = useState('');
+  const [contentDescription, setContentDescription] = useState('');
+  const [materialsDescription, setMaterialsDescription] = useState('');
 
   useEffect(() => {
     if (!init) {
@@ -29,6 +32,9 @@ const PaintingsFilters: FC<PaintingsFiltersProps> = ({ onSubmit, init }) => {
     setFilterByDateRange(init.createdDate === undefined || typeof init.createdDate !== 'number');
     setCreatedDate(typeof init.createdDate === 'number' ? init.createdDate : undefined);
     setCreatedDateRange(typeof init.createdDate !== 'number' ? init.createdDate ?? {} : {});
+    setAuthor(init.author ?? '');
+    setContentDescription(init.contentDescription ?? '');
+    setMaterialsDescription(init.materialsDescription ?? '');
   }, [init]);
 
   const createdDateValue = useMemo(() => createdDate ? new Date(createdDate).toISOString().replace(/T.*/, '') : '', [createdDate]);
@@ -66,12 +72,31 @@ const PaintingsFilters: FC<PaintingsFiltersProps> = ({ onSubmit, init }) => {
       }
     }
 
+    if (author) {
+      filters.author = author;
+    }
+
+    if (contentDescription) {
+      filters.contentDescription = contentDescription;
+    }
+
+    if (materialsDescription) {
+      filters.materialsDescription = materialsDescription;
+    }
+
     onSubmit(filters);
   };
 
-  const nameChangeHandler = useCallback<ChangeEventHandler<HTMLInputElement>>((event) => {
-    setName(event.currentTarget.value);
-  }, [setName]);
+  const textChangeHandler = useCallback<ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>>((event) => {
+    const mapping = {
+      name: setName,
+      author: setAuthor,
+      contentDescription: setContentDescription,
+      materialsDescription: setMaterialsDescription,
+    };
+
+    mapping[(event.target.name as keyof typeof mapping)](event.target.value);
+  }, [setName, setAuthor, setContentDescription, setMaterialsDescription]);
 
   const showSoldChangeHandler = useCallback<ChangeEventHandler<HTMLInputElement>>((event) => {
     setShowSold(event.currentTarget.checked);
@@ -116,11 +141,23 @@ const PaintingsFilters: FC<PaintingsFiltersProps> = ({ onSubmit, init }) => {
       <form onSubmit={submitHandler} className="flex flex-col gap-2">
         <label>
           <span>Name</span>
-          <input type="text" value={name} onChange={nameChangeHandler} />
+          <input type="text" name="name" value={name} onChange={textChangeHandler} />
+        </label>
+        <label>
+          <span>Author</span>
+          <input type="text" name="author" value={name} onChange={textChangeHandler} />
         </label>
         <label>
           <span>Show sold</span>
           <input type="checkbox" checked={showSold} onChange={showSoldChangeHandler} />
+        </label>
+        <label className="items-start">
+          <span className="pt-1">Content description</span>
+          <textarea name="contentDescription" value={name} onChange={textChangeHandler} />
+        </label>
+        <label className="items-start">
+          <span className="pt-1">Materials description</span>
+          <textarea name="materialsDescription" value={name} onChange={textChangeHandler} />
         </label>
         <label>
           <span>Filter by date range</span>
