@@ -106,8 +106,6 @@ export class PaintingsService {
       });
     }
 
-    console.log(query.bool?.must);
-
     const result = await this.client.search<ESPainting>({
       index: this.INDEX_NAME,
       query: (query!.bool!.must! as []).length === 0 ? {

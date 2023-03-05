@@ -27,7 +27,6 @@ const HomePage: NextPage<HomePageProps> = ({ paintings }) => {
   }, [clientPaintings]);
 
   const submitHandler: PaintingsFiltersSubmitHandler = (f) => {
-    console.log(f);
     setFilters(f);
     router.push({
       pathname: router.pathname,

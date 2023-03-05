@@ -38,8 +38,6 @@ const CreatePaintingPage: NextPage = () => {
   const changeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     const name = event.target.name;
 
-    console.log(event);
-
     switch (name) {
       case "name":
         setPainting((s) => ({ ...s, name: event.target.value }));
