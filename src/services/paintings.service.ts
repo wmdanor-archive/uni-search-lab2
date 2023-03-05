@@ -54,7 +54,7 @@ export class PaintingsService {
       createdDate: { type: 'date', format: 'epoch_millis' },
       author: { type: 'text', analyzer: 'standard' },
       contentDescription: { type: 'text', analyzer: 'english' },
-      materialsDescription: { type: 'text', analyzer: 'custom_mapper' },
+      materialsDescription: { type: 'text', analyzer: 'custom_analyzer' },
     };
 
     await this.client.indices.create({

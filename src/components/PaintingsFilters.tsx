@@ -145,7 +145,7 @@ const PaintingsFilters: FC<PaintingsFiltersProps> = ({ onSubmit, init }) => {
         </label>
         <label>
           <span>Author</span>
-          <input type="text" name="author" value={name} onChange={textChangeHandler} />
+          <input type="text" name="author" value={author} onChange={textChangeHandler} />
         </label>
         <label>
           <span>Show sold</span>
@@ -153,11 +153,11 @@ const PaintingsFilters: FC<PaintingsFiltersProps> = ({ onSubmit, init }) => {
         </label>
         <label className="items-start">
           <span className="pt-1">Content description</span>
-          <textarea name="contentDescription" value={name} onChange={textChangeHandler} />
+          <textarea name="contentDescription" value={contentDescription} onChange={textChangeHandler} />
         </label>
         <label className="items-start">
           <span className="pt-1">Materials description</span>
-          <textarea name="materialsDescription" value={name} onChange={textChangeHandler} />
+          <textarea name="materialsDescription" value={materialsDescription} onChange={textChangeHandler} />
         </label>
         <label>
           <span>Filter by date range</span>
