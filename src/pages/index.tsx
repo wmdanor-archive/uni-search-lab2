@@ -23,7 +23,7 @@ const HomePage: NextPage<HomePageProps> = ({ paintings }) => {
   }, [setClientPaintings]);
 
   const paintingItems = useMemo(() => {
-    return clientPaintings.map(painting => (<PaintingItem painting={painting} onDelete={deleteHandler} />));
+    return clientPaintings.map(painting => (<PaintingItem key={painting.id} painting={painting} onDelete={deleteHandler} />));
   }, [clientPaintings]);
 
   const submitHandler: PaintingsFiltersSubmitHandler = (f) => {
