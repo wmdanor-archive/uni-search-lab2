@@ -3,12 +3,39 @@
 @tailwind utilities;
 
 @layer base {
-  input[type=text], input[type=date], input[type=number], button {
-    @apply border border-black;
+  a, [data-styling="a"] {
+    @apply text-neutral-500 transition duration-200 hover:text-blue-600 focus:text-blue-800;
   }
 
-  a {
-    @apply text-blue-800 transition duration-150 ease-in-out hover:text-blue-600 focus:text-blue-600 active:text-blue-700;
+  a[data-active="true"], [data-active="true"][data-styling="a"] {
+    @apply text-blue-600 focus:text-blue-800;
+  }
+
+  input[type="text"], input[type="number"], input[type="date"] {
+    @apply outline-none border-2 font-semibold border-neutral-500 hover:border-blue-600 focus:border-blue-800 rounded-full bg-white transition duration-200 p-1 px-5;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    transform: translateY(1px);
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  button, [data-styling="button"] {
+    @apply border-2 font-semibold border-blue-600 focus:border-blue-800 rounded-full bg-white hover:bg-blue-600 text-blue-600 hover:text-white transition duration-200 p-1 px-5
+  }
+
+  button[data-variant="danger"], [data-variant="danger"][data-styling="button"] {
+    @apply border-red-600 focus:border-red-800 bg-white hover:bg-red-600 text-red-600 hover:text-white;
+  }
+
+  label, [data-styling="label"] {
+    @apply flex gap-2 items-center;
   }
 }
 

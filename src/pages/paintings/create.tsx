@@ -56,28 +56,34 @@ const CreatePaintingPage: NextPage = () => {
     }
   }
 
-  return <div>
-    <NavBar />
-    <form className="flex flex-col" onSubmit={submitHandler}>
-      <label>
-        Name:
-        <input type="text" name="name" required onChange={changeHandler} />
-      </label>
-      <label>
-        Price:
-        <input type="number" name="price" required onChange={changeHandler}  />
-      </label>
-      <label>
-        Is sold:
-        <input type="checkbox" name="isSold" onChange={changeHandler}  />
-      </label>
-      <label>
-        Created date:
-        <input type="date" name="createdDate" required onChange={changeHandler}  />
-      </label>
-      <button type="submit" disabled={isFetching}>Create</button>
-    </form>
-  </div>
+  return (
+    <div>
+      <NavBar />
+      <h1 className="text-xl p-4 border-b">Create new painting record</h1>
+      <div className="flex flex-col gap-3 p-4">
+        <form onSubmit={submitHandler} className="flex flex-col gap-2">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" required onChange={changeHandler} />
+          </label>
+          <label>
+            <span>Price</span>
+            <input type="number" name="price" required onChange={changeHandler}  />
+          </label>
+          <label>
+            <span>Is sold</span>
+            <input type="checkbox" name="isSold" onChange={changeHandler}  />
+          </label>
+          <label>
+            <span>Created date</span>
+            <input type="date" name="createdDate" required onChange={changeHandler}  />
+          </label>
+          <button type="submit" disabled={isFetching}>Create</button>
+        </form>
+      </div>
+    </div>
+  );
+
 }
 
 export default CreatePaintingPage;

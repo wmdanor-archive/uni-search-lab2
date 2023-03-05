@@ -110,38 +110,43 @@ const PaintingsFilters: FC<PaintingsFiltersProps> = ({ onSubmit, init }) => {
     }
   }, [priceRange, setPriceRange]);
 
-  return <form onSubmit={submitHandler} className="flex flex-col border">
-    <label>
-      Name:
-      <input type="text" value={name} onChange={nameChangeHandler} />
-    </label>
-    <label>
-      Show sold:
-      <input type="checkbox" checked={showSold} onChange={showSoldChangeHandler} />
-    </label>
-    <label>
-      Filter by date range:
-      <input type="checkbox" checked={filterByDateRange} onChange={filterByDateRangeChangeHandler} />
-    </label>
-    <label>
-      Created date:
-      {filterByDateRange ?
-      (<>
-        <input type="date" name="date.gte" onChange={dateChangeHandler} value={createdDateMinValue} />
-        -
-        <input type="date" name="date.lte" onChange={dateChangeHandler} value={createdDateMaxValue} />
-      </>)
-      :
-      <input type="date" name="date" onChange={dateChangeHandler} value={createdDateValue} />}
-    </label>
-    <label>
-      Price:
-      <input type="number" step="1" pattern="\d+" name="price.gte" value={priceRange.min ?? ''} onChange={priceRangeChangeHandler} />
-        -
-      <input type="number" step="1" pattern="\d+" name="price.lte" value={priceRange.max ?? ''} onChange={priceRangeChangeHandler} />
-    </label>
-    <button type="submit">Apply</button>
-  </form>
+  return (
+    <div className="flex flex-col gap-3 p-4">
+      <h2 className="text-lg">Filters</h2>
+      <form onSubmit={submitHandler} className="flex flex-col gap-2">
+        <label>
+          <span>Name</span>
+          <input type="text" value={name} onChange={nameChangeHandler} />
+        </label>
+        <label>
+          <span>Show sold</span>
+          <input type="checkbox" checked={showSold} onChange={showSoldChangeHandler} />
+        </label>
+        <label>
+          <span>Filter by date range</span>
+          <input type="checkbox" checked={filterByDateRange} onChange={filterByDateRangeChangeHandler} />
+        </label>
+        <label>
+          <span>Created date</span>
+          {filterByDateRange ?
+          (<>
+            <input type="date" name="date.gte" onChange={dateChangeHandler} value={createdDateMinValue} />
+            <span>-</span>
+            <input type="date" name="date.lte" onChange={dateChangeHandler} value={createdDateMaxValue} />
+          </>)
+          :
+          <input type="date" name="date" onChange={dateChangeHandler} value={createdDateValue} />}
+        </label>
+        <label>
+          <span>Price</span>
+          <input type="number" step="1" pattern="\d+" name="price.gte" value={priceRange.min ?? ''} onChange={priceRangeChangeHandler} />
+          <span>-</span>
+          <input type="number" step="1" pattern="\d+" name="price.lte" value={priceRange.max ?? ''} onChange={priceRangeChangeHandler} />
+        </label>
+        <button type="submit">Apply</button>
+      </form>
+    </div>
+  );
 }
 
 export default PaintingsFilters;

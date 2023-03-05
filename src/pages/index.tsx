@@ -2,9 +2,10 @@ import { GetServerSideProps, NextPage } from "next"
 import { PaintingsSearchOptions, PaintingsService } from "@/services/paintings.service"
 import PaintingsFilters, { PaintingsFiltersSubmitHandler } from "@/components/PaintingsFilters"
 import { Painting } from "@/types";
-import { MouseEventHandler, useCallback, useState } from "react";
+import { MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import NavBar from "@/components/NavBar";
+import PaintingItem, { PaintingItemDeleteHandler } from "@/components/PaintingItem";
 
 export interface HomePageProps {
   paintings: Painting[];
@@ -14,6 +15,16 @@ const HomePage: NextPage<HomePageProps> = ({ paintings }) => {
   const router = useRouter();
   const [clientPaintings, setClientPaintings] = useState(paintings);
   const [filters, setFilters] = useState<PaintingsSearchOptions>(JSON.parse(router.query.filters as string ?? '{}'));
+
+  useEffect(() => setClientPaintings(paintings), [paintings]);
+
+  const deleteHandler = useCallback<PaintingItemDeleteHandler>(({ id }) => {
+    setClientPaintings((s) => s.filter(painting => painting.id !== id));
+  }, [setClientPaintings]);
+
+  const paintingItems = useMemo(() => {
+    return clientPaintings.map(painting => (<PaintingItem painting={painting} onDelete={deleteHandler} />));
+  }, [clientPaintings]);
 
   const submitHandler: PaintingsFiltersSubmitHandler = (f) => {
     console.log(f);
@@ -26,44 +37,22 @@ const HomePage: NextPage<HomePageProps> = ({ paintings }) => {
     });
   }
 
-  const createDeleteHandler = useCallback((id: string) => {
-    const deleteHandler: MouseEventHandler<HTMLButtonElement> = (_event) => {
-      const isUserSure = window.confirm('Are you sure?');
-  
-      if (!isUserSure) {
-        return;
-      }
-
-      fetch('/api/paintings', {
-        method: 'DELETE',
-        body: JSON.stringify({ id }),
-      }).then(() => {
-        setClientPaintings((s) => s.filter(painting => painting.id !== id));
-      });
-    }
-
-    return deleteHandler;
-  }, []);
-
   return (
     <div>
       <NavBar />
+      <h1 className="text-xl p-4 border-b">Paintings</h1>
       <PaintingsFilters onSubmit={submitHandler} init={filters} />
-      <div>
-        <div>Paintings</div>
-        {clientPaintings.map(painting => (
-          <div key={painting.id} className="flex flex-col">
-            <span>{painting.id}</span>
-            <span>{painting.name}</span>
-            <span>{painting.price}$</span>
-            <span>{painting.isSold ? 'Sold' : 'Selling'}</span>
-            <span>{new Date(painting.createdDate).toISOString()}</span>
-            <button onClick={createDeleteHandler(painting.id)}>Delete</button>
+      {
+        paintingItems.length === 0 ?
+        (
+          <div className="flex flex-col border-t last:border-b p-4 items-center">
+            <span className="text-red-600 text-lg">No painting records</span>
           </div>
-        ))}
-      </div>
+        ) :
+        (paintingItems)
+      }
     </div>
-  )
+  );
 }
 
 export default HomePage;
